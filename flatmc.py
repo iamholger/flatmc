@@ -80,7 +80,8 @@ def rho_massless(Min, Mout):
 def generate_point(pa,pb,rans):
 
     # The final momenta
-    MOM = [ -rans[-1]*pa, -rans[-2]*pb ]
+    # MOM = [ -rans[-1]*pa, -rans[-2]*pb ]
+    MOM = [ -pa, -pb ] # NOTE this fixes the incoming momenta
     _Q  = -MOM[0]-MOM[1]
 
     # Storage of intermediate Masses, Qs
@@ -266,4 +267,92 @@ if __name__ == "__main__":
 
     print("120*Berends: {:.20f}".format(120*ME_PLB(moms)))
     print("Ellis:       {:.20f}".format(ME_ESW(moms)))
+
+
+    import time
+    t1=time.time()
+    Y = []
+    NSAMPLES=int(sys.argv[2])
+    X=[]
+    for _ in range(NSAMPLES):
+        rans = [ np.random.rand() for i in range(0,3*NP-4+2) ]
+        X.append(rans[0:5])
+        moms = generate_point(pa,pb,rans)
+        Y.append(ME_PLB(moms))
+    t2=time.time()
+    print("Generation of {} configuration took {} seconds".format(NSAMPLES, t2-t1))
+
+    # import matplotlib.pyplot as plt
+    # plt.style.use("ggplot")
+    # plt.xlabel("$\log_{10}(ME)$")
+    # plt.hist(np.log10(Y), bins=51,histtype='step', label="Exact")
+    # plt.yscale("log")
+
+    # import apprentice
+    # S=apprentice.Scaler(X)
+    # XX = S.scale(X)
+
+    # m=int(sys.argv[3])
+    # n=int(sys.argv[4])
+    # # R = apprentice.RationalApproximation(XX, H, order=(m,n))
+    # # R.save("approx_{}_{}.json".format(m,n))
+    # R=apprentice.RationalApproximation(fname="approx_1_12.json")
+    # from IPython import embed
+    # embed()
+    # HH = []
+    # t1=time.time()
+    # for x in XX:
+        # HH.append(R(x))
+    # t2=time.time()
+    # print("Evaluation of {} configuration took {} seconds".format(NSAMPLES, t2-t1))
+
+    # plt.hist(np.log10(HH), bins=51,histtype='step', label="Approx")
+    # plt.legend()
+    # plt.savefig("test_{}_{}.pdf".format(m,n))
+
+    # res = []
+    # for num, x in enumerate(XX):
+        # res.append((R(x) - H[num])/H[num])
+
+    # plt.clf()
+    # plt.hist(res, bins=5001)
+    # plt.xlim((-10,10))
+    # plt.yscale("log")
+    # plt.savefig("residual_{}_{}.pdf".format(m,n))
+    # sys.exit(1)
+
+
+    # for m in range(1, 2):
+        # for n in range(5, 15):
+            # print("Now ({},{})".format(m,n))
+            # R = apprentice.RationalApproximation(XX, H, order=(m,n))
+            # R.save("approx_{}_{}.json".format(m,n))
+
+            # res = []
+            # for num, x in enumerate(XX):
+                # res.append((R(x) - H[num])/H[num])
+
+            # plt.clf()
+            # plt.hist(res, bins=5000)
+            # plt.xlim((-10,10))
+            # plt.savefig("residual_{}_{}.pdf".format(m,n))
+
+    # m=int(sys.argv[3])
+    # n=int(sys.argv[4])
+    # R = apprentice.RationalApproximation(XX, H, order=(m,n))
+    # R.save("approx_{}_{}.json".format(m,n))
+    # # from IPython import embed
+    # # embed()
+
+    # res = []
+    # for num, x in enumerate(XX):
+        # res.append((R(x) - H[num])/H[num])
+
+    # plt.clf()
+    # plt.hist(res, bins=5000)
+    # plt.xlim((-10,10))
+    # plt.savefig("residual_{}_{}.pdf".format(m,n))
+
+    # from IPython import embed
+    # embed()
 
