@@ -1,16 +1,13 @@
 import numpy as np
-from numba import jit, njit
 
 from vector import Vec4
 
-@njit
 def u_2(r):
     """
     Integration variable u_2 --- solution for r = 2u^1 - 1u^2
     """
     return 1. -  np.sqrt(1.-r)
 
-@njit(fastmath=True)
 def u_3(r):
     """
     Integration variable u_3 --- solution for r = 3u^2 - 2u^3
@@ -19,7 +16,6 @@ def u_3(r):
     y = (2.-(1.-1.j*np.sqrt(3.))/x-(1.+1.j*np.sqrt(3.))*x)/4.
     return y.real
 
-@njit(fastmath=True)
 def u_4(r):
     """
     Integration variable u_4 --- solution for r = 4u^3 - 3u^4
@@ -30,7 +26,6 @@ def u_4(r):
     z = (1.+y-np.sqrt(2.-x+2./y))/3.
     return z.real
 
-@njit(fastmath=True)
 def f(x, a, r):
     """
     The equation ax^(a-1) - (a-1)x^a - r = 0
@@ -38,14 +33,12 @@ def f(x, a, r):
     """
     return a*x**(a-1) - (a-1)*x**a - r
 
-@njit(fastmath=True)
 def fp(x, a):
     """
     First derivative of f
     """
     return a*(a-1)*(x**(a-2) - x**(a-1))
 
-@njit(fastmath=True)
 def fpp(x, a):
     """
     Second derivative of
@@ -87,8 +80,7 @@ def rho_massless(Min, Mout):
 def generate_point(pa,pb,rans):
 
     # The final momenta
-    # MOM = [ -rans[-1]*pa, -rans[-2]*pb ]
-    MOM = [ -pa, -pb ] # NOTE this fixes the incoming momenta
+    MOM = [ -rans[-1]*pa, -rans[-2]*pb ]
     _Q  = -MOM[0]-MOM[1]
 
     # Storage of intermediate Masses, Qs
@@ -274,102 +266,4 @@ if __name__ == "__main__":
 
     print("120*Berends: {:.20f}".format(120*ME_PLB(moms)))
     print("Ellis:       {:.20f}".format(ME_ESW(moms)))
-
-
-    import time
-    t1=time.time()
-    Y = []
-    NSAMPLES=int(sys.argv[2])
-    X=[]
-    for _ in range(NSAMPLES):
-        rans = [ np.random.rand() for i in range(0,3*NP-4+2) ]
-        X.append(rans[0:5])
-        moms = generate_point(pa,pb,rans)
-        Y.append(ME_PLB(moms))
-    t2=time.time()
-    print("Generation of {} configuration took {} seconds".format(NSAMPLES, t2-t1))
-
-
-    import apprentice
-    t1=time.time()
-    apprentice.RationalApproximation(X,Y, order=(5,5), strategy=3)
-    t2=time.time()
-    print("Approximation took {} seconds".format(t2-t1))
-
-    # from IPython import embed
-    # embed()
-
-    # import matplotlib.pyplot as plt
-    # plt.style.use("ggplot")
-    # plt.xlabel("$\log_{10}(ME)$")
-    # plt.hist(np.log10(Y), bins=51,histtype='step', label="Exact")
-    # plt.yscale("log")
-
-    # import apprentice
-    # S=apprentice.Scaler(X)
-    # XX = S.scale(X)
-
-    # m=int(sys.argv[3])
-    # n=int(sys.argv[4])
-    # # R = apprentice.RationalApproximation(XX, H, order=(m,n))
-    # # R.save("approx_{}_{}.json".format(m,n))
-    # R=apprentice.RationalApproximation(fname="approx_1_12.json")
-    # from IPython import embed
-    # embed()
-    # HH = []
-    # t1=time.time()
-    # for x in XX:
-        # HH.append(R(x))
-    # t2=time.time()
-    # print("Evaluation of {} configuration took {} seconds".format(NSAMPLES, t2-t1))
-
-    # plt.hist(np.log10(HH), bins=51,histtype='step', label="Approx")
-    # plt.legend()
-    # plt.savefig("test_{}_{}.pdf".format(m,n))
-
-    # res = []
-    # for num, x in enumerate(XX):
-        # res.append((R(x) - H[num])/H[num])
-
-    # plt.clf()
-    # plt.hist(res, bins=5001)
-    # plt.xlim((-10,10))
-    # plt.yscale("log")
-    # plt.savefig("residual_{}_{}.pdf".format(m,n))
-    # sys.exit(1)
-
-
-    # for m in range(1, 2):
-        # for n in range(5, 15):
-            # print("Now ({},{})".format(m,n))
-            # R = apprentice.RationalApproximation(XX, H, order=(m,n))
-            # R.save("approx_{}_{}.json".format(m,n))
-
-            # res = []
-            # for num, x in enumerate(XX):
-                # res.append((R(x) - H[num])/H[num])
-
-            # plt.clf()
-            # plt.hist(res, bins=5000)
-            # plt.xlim((-10,10))
-            # plt.savefig("residual_{}_{}.pdf".format(m,n))
-
-    # m=int(sys.argv[3])
-    # n=int(sys.argv[4])
-    # R = apprentice.RationalApproximation(XX, H, order=(m,n))
-    # R.save("approx_{}_{}.json".format(m,n))
-    # # from IPython import embed
-    # # embed()
-
-    # res = []
-    # for num, x in enumerate(XX):
-        # res.append((R(x) - H[num])/H[num])
-
-    # plt.clf()
-    # plt.hist(res, bins=5000)
-    # plt.xlim((-10,10))
-    # plt.savefig("residual_{}_{}.pdf".format(m,n))
-
-    # from IPython import embed
-    # embed()
 
