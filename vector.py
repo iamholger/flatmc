@@ -41,7 +41,7 @@ class Vec4:
             return self.E*v.E-self.px*v.px-self.py*v.py-self.pz*v.pz
         return Vec4(self.E*v,self.px*v,self.py*v,self.pz*v)
 
-    def __div__(self,v):
+    def __truediv__(self,v):
         return Vec4(self.E/v,self.px/v,self.py/v,self.pz/v)
 
     def M2(self):

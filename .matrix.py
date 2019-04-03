@@ -37,10 +37,10 @@ class eetojj:
         ct = 2.*r.random()-1.
         st = m.sqrt(1.-ct*ct)
         phi = 2.*m.pi*r.random()
-        p1 = Vec4(1,st*m.cos(phi),st*m.sin(phi),ct)*self.ecms/2 
+        p1 = Vec4(1,st*m.cos(phi),st*m.sin(phi),ct)*self.ecms/2.
         p2 = Vec4(p1.E,-p1.px,-p1.py,-p1.pz)
-        pa = Vec4(self.ecms/2,0,0,self.ecms/2)
-        pb = Vec4(self.ecms/2,0,0,-self.ecms/2)
+        pa = Vec4(self.ecms/2,0,0,self.ecms/2.)
+        pb = Vec4(self.ecms/2,0,0,-self.ecms/2.)
         fl = r.randint(1,5)
         lome = self.ME2(fl,(pa+pb).M2(),(pa-p1).M2())
         dxs = 5.*lome*3.89379656e8/(8.*m.pi)/(2.*pow(self.ecms,2))

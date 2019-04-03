@@ -70,12 +70,12 @@ class Histo1D:
     def Fill(self,x,w):
         l = 0
         r = len(self.bins)-1
-        c = (l+r)/2
+        c = int((l+r)/2)
         a = self.bins[c].xmin
         while r-l > 1:
             if x < a: r = c
             else: l = c
-            c = (l+r)/2
+            c = int((l+r)/2)
             a = self.bins[c].xmin
         if x > self.bins[r].xmin:
             self.oflow.Fill(x,w)

@@ -35,7 +35,7 @@ class eetojj:
         ct = 2.*r.random()-1.
         st = m.sqrt(1.-ct*ct)
         phi = 2.*m.pi*r.random()
-        p1 = Vec4(1,st*m.cos(phi),st*m.sin(phi),ct)*self.ecms/2 
+        p1 = Vec4(1,st*m.cos(phi),st*m.sin(phi),ct)*self.ecms/2
         p2 = Vec4(p1.E,-p1.px,-p1.py,-p1.pz)
         pa = Vec4(self.ecms/2,0,0,self.ecms/2)
         pb = Vec4(self.ecms/2,0,0,-self.ecms/2)

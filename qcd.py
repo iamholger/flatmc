@@ -16,7 +16,7 @@ class AlphaS:
         self.asmz = asmz
         self.asmb = self(self.mb2)
         self.asmc = self(self.mc2)
-        print "\\alpha_s({0}) = {1}".format(mz,self(self.mz2))
+        print ("\\alpha_s({0}) = {1}".format(mz,self(self.mz2)))
 
     def beta0(self,nf):
         return 11./6.*CA-2./3.*TR*nf

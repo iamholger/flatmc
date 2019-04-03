@@ -15,7 +15,7 @@ class Algorithm:
         p = [ i.mom for i in event[2:] ]
         kt2 = []
         n = len(p)
-        imap = range(n)
+        imap = list(range(n))
         kt2ij = [ [ 0 for i in range(n) ] for j in range(n) ]
         dmin = 1
         for i in range(n):
